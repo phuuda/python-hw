@@ -4,48 +4,12 @@ from pattern.web import Wikipedia
 from nltk import ngrams
 from collections import Counter
 
-class WikiParser:
-    def __init__(self):
-        pass
-    
-    def __get_text(self, search_term):
-        
-        article = Wikipedia().search(search_term)
-        if article:
-            s = article.string        
-            if s:
-                s = re.sub(r'[^\w\s]','',s)
-                s = s.lower()
-                while '\n' in s:
-                    s = s.replace('\n', ' ')
-                while '  ' in s:
-                    s = s.replace('  ', ' ')
-                return s
-            else:
-                return None
-        else:
-            return None
-    
-    def get_articles(self, search_term):
-        text_list = []
-        
-        article = Wikipedia().search(search_term)
-        links = article.links
-        
-        s = self.__get_text(search_term)
-        text_list.append(s)
-        
-        for link in links:
-            text_list.append(self.__get_text(link))
-
-        return text_list
-    
 class TextStatistics:
     def __init__(self, articles):        
         self.articles = articles
         pass
 
-    def get_top_3grams(self, n):   #top n 3grams
+    def get_top_3grams(self, n):
         
         all_three_grams = []
         
@@ -58,7 +22,7 @@ class TextStatistics:
             while '' in words:
                 words.remove('')
 
-            three_grams = ngrams(words, 3) #### change
+            three_grams = ngrams(words, 3)
             for gram in three_grams:
                 all_three_grams.append(gram)
                 
